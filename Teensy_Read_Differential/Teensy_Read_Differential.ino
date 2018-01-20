@@ -42,7 +42,7 @@ void setup() {
   analogWriteResolution(12);  // analogWrite value 0 to 4095, or 4096 for high
  // analogWrite(REFPIN,  2000 );
     //This is proper DAC // Good use was 20 and no resolutionchange // 4000 and resolution was good
- analogWrite(A14,(int)4096);
+ analogWrite(A14,(int)3700);
   
   Serial.begin(9600);
 
@@ -89,8 +89,11 @@ void setup() {
 }
 
 
-
+float adcflo = 4096.0;
 void loop() {
+//adcflo=adcflo-3;
+// analogWrite(A14,(int)adcflo);
+ 
 
   value = (uint16_t)adc->analogReadContinuous(ADC_0); // the unsigned is necessary for 16 bits, otherwise values larger than 3.3/2 V are negative!
 
@@ -130,12 +133,18 @@ void loop() {
  // oldsignal=average;
 
 
-
+//  Serial.print(adcflo*10);
+//Serial.print(",");
+//
+//  Serial.print(37000);
+//Serial.print(",");
 //  Serial.println(value);
-    Serial.println(average);
-//    Serial.print(",");
+ 
+    
+ 
   //  Serial.println(deriv);
 
+    Serial.println(average);
 
    //Serial.println(diffvalueAVE);
 

@@ -39,10 +39,10 @@ void setup() {
 
 //This is just fancy PWM
  // pinMode(REFPIN, OUTPUT);
-  analogWriteResolution(12);  // analogWrite value 0 to 4095, or 4096 for high
+ // analogWriteResolution(12);  // analogWrite value 0 to 4095, or 4096 for high
  // analogWrite(REFPIN,  2000 );
     //This is proper DAC // Good use was 20 and no resolutionchange
- analogWrite(A14,(int)4000);
+ analogWrite(A14,(int)20);
   
   Serial.begin(9600);
 
