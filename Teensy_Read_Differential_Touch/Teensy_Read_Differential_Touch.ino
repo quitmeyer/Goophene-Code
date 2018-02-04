@@ -11,11 +11,11 @@ ADC *adc = new ADC(); // adc object
 float signal1;
 float gain = 0.01;
 
-float deriv=0;
-float deriv2=0;
+float deriv = 0;
+float deriv2 = 0;
 
-float oldsignal=0;
-float oldderiv=0;
+float oldsignal = 0;
+float oldderiv = 0;
 
 
 const int numReadings = 10;
@@ -26,37 +26,39 @@ int total = 0;                  // the running total
 int average = 0;                // the average
 int value = 0;
 int prevvalue = 0;
-  int latestreading=0;
+int latestreading = 0;
 void setup() {
 
-//setup my averager
- 
+  //setup my averager
+
   pinMode(LED_BUILTIN, OUTPUT);
 
 
   pinMode(A10, INPUT); //Diff Channel 0 Positive
   pinMode(A11, INPUT); //Diff Channel 0 Negative
+  pinMode(A9, INPUT); //Diff Channel 0 Negative
+  /*
 
-//This is just fancy PWM
- // pinMode(REFPIN, OUTPUT);
+  //This is just fancy PWM
+  // pinMode(REFPIN, OUTPUT);
   analogWriteResolution(12);  // analogWrite value 0 to 4095, or 4096 for high
- // analogWrite(REFPIN,  2000 );
-    //This is proper DAC // Good use was 20 and no resolutionchange // 4000 and resolution was good
- analogWrite(A14,(int)1000);
-  
+  // analogWrite(REFPIN,  2000 );
+  //This is proper DAC // Good use was 20 and no resolutionchange // 4000 and resolution was good
+  analogWrite(A14, (int)3700);
+
   Serial.begin(9600);
 
 
 
- // analogWrite(A14,(unit16_t)(4095.0*(value - min)/(max - min)));
+  // analogWrite(A14,(unit16_t)(4095.0*(value - min)/(max - min)));
 
 
   ///// ADC0 ////
   // reference can be ADC_REFERENCE::REF_3V3, ADC_REFERENCE::REF_1V2 (not for Teensy LC) or ADC_REFERENCE::REF_EXT.
   //adc->setReference(ADC_REFERENCE::REF_1V2, ADC_0); // change all 3.3 to 1.2 if you change the reference to 1V2
 
-//GOOD COMBO IS Averaging = 1600, CONV = LOW, SAMPLING = HIGH
-//GOOD COMBO IS Av = 100, CONV = MED, SAMP = HIGH
+  //GOOD COMBO IS Averaging = 1600, CONV = LOW, SAMPLING = HIGH
+  //GOOD COMBO IS Av = 100, CONV = MED, SAMP = HIGH
   adc->setAveraging(100); // set number of averages // can be 0, 4, 8, 16 or 32
   adc->setResolution(16); // set bits of resolution
 
@@ -74,39 +76,42 @@ void setup() {
 
 
   //adc->startContinuous(readPin, ADC_0);
-    adc->startContinuous(10, ADC_0);
-
-//  adc->startContinuousDifferential(A10, A11, ADC_0); 
-  adc->enablePGA  (2,ADC_0) ; //can be 1, 2, 4, 8, 16, 32 or 64 // just gives me a flat 0
+  adc->startContinuousDifferential(A10, A11, ADC_0);
+  //adc->enablePGA  (2,ADC_0) ; //can be 1, 2, 4, 8, 16, 32 or 64 // just gives me a flat 0
 
   //Start it off with an average calibration
- for (int thisReading = 0; thisReading < numReadings; thisReading++) {
-    readings[thisReading] = (uint16_t)adc->analogReadContinuous(ADC_0); 
-      total = total + readings[thisReading];
+  for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+    readings[thisReading] = (uint16_t)adc->analogReadContinuous(ADC_0);
+    total = total + readings[thisReading];
   }
   average = total / numReadings;
 
-
+*/
   delay(500);
 }
 
 
 float adcflo = 4096.0;
+
 void loop() {
-//adcflo=adcflo-3;
-// analogWrite(A14,(int)adcflo);
- 
+
+   value =  touchRead(A9);
+
+   /*
+  //adcflo=adcflo-3;
+  // analogWrite(A14,(int)adcflo);
+
 
   value = (uint16_t)adc->analogReadContinuous(ADC_0); // the unsigned is necessary for 16 bits, otherwise values larger than 3.3/2 V are negative!
 
 
-//Try a method where detections are not Added to the average
-  deriv=average-value; //old average minus latest reading
+  //Try a method where detections are not Added to the average
+  deriv = average - value; //old average minus latest reading
 
-//if(deriv<20){ // only calculate the average during resting state? noise level of 20
-//Average Stuff
+  //if(deriv<20){ // only calculate the average during resting state? noise level of 20
+  //Average Stuff
 
-   // subtract the last reading:
+  // subtract the last reading:
   total = total - readings[readIndex];
   // read from the sensor:
   latestreading = value;
@@ -122,33 +127,33 @@ void loop() {
     readIndex = 0;
   }
 
-  
-//update the new average
+
+  //update the new average
   average = total / numReadings;
 
-//}
+  //}
   int diffvalueAVE = average - value; // latest average - latest reading
 
- 
- // deriv2=deriv-oldderiv;
- //     oldderiv=deriv;
- // oldsignal=average;
+
+  // deriv2=deriv-oldderiv;
+  //     oldderiv=deriv;
+  // oldsignal=average;
 
 
-//  Serial.print(adcflo*10);
-//Serial.print(",");
-//
-//  Serial.print(37000);
-//Serial.print(",");
-//  Serial.println(value);
- 
-    
- 
+  //  Serial.print(adcflo*10);
+  //Serial.print(",");
+  //
+  //  Serial.print(37000);
+  //Serial.print(",");
+  //  Serial.println(value);
+
+
+
   //  Serial.println(deriv);
 
-    Serial.println(average);
+  Serial.println(average);
 
-   //Serial.println(diffvalueAVE);
+  //Serial.println(diffvalueAVE);
 
   //Visualization
   if (abs(diffvalueAVE) > 40) {
@@ -161,6 +166,8 @@ void loop() {
 
   prevvalue = value;
 
+*/
+Serial.println(value);
   delay(10);
 
 }
