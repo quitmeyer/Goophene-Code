@@ -12,15 +12,20 @@ ADC *adc = new ADC(); // adc object;
 
 
 //Averaging Stuff
-const int numReadings = 10;
+const int numReadings = 20;
 
 int readings[numReadings];      // the readings from the analog input
 int readIndex = 0;              // the index of the current reading
 int total = 0;                  // the running total
-int average = 0;                // the average
+float average = 0;                // the average
 int value = 0;
 int prevvalue = 0;
+float prevAve = 0;
 int latestreading = 0;
+
+float deriv1=0;
+float prevDeriv1=0;
+float deriv2=0;
 
 //int value;
 int value2;
@@ -110,15 +115,28 @@ void loop() {
   //update the new average
   average = total / numReadings;
 
+//LETS DO SOME CALCULUS
+
+deriv1=average-prevAve;
+
+deriv2=deriv1-prevDeriv1;
 
 
-    digitalWriteFast(LED_BUILTIN, !digitalReadFast(LED_BUILTIN));
+  //  digitalWriteFast(LED_BUILTIN, !digitalReadFast(LED_BUILTIN));
 
-  //  Serial.print(" Value A10-A11: ");
-    // Divide by the maximum possible value and the PGA level
+//Load variables for next round
+
+prevAve=average;
+prevvalue = value;
+prevDeriv1=deriv1;
+
+//DISPLAY INFO
    // Serial.println(value, DEC);
 
-     Serial.println(average);
+    // Serial.println(average);
+      //  Serial.println(deriv1);
+     Serial.println(deriv2);
+
     delay(7); //scrolling speed of information
 }
 
