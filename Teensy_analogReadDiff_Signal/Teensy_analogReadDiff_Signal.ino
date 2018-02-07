@@ -12,7 +12,7 @@ ADC *adc = new ADC(); // adc object;
 
 
 //Averaging Stuff
-const int numReadings = 4;
+const int numReadings = 10;
 
 int readings[numReadings];      // the readings from the analog input
 int readIndex = 0;              // the index of the current reading
@@ -50,7 +50,7 @@ void setup() {
     // analogWrite(REFPIN,  2000 );
 
   //This is proper DAC // Good use was 20 and no resolutionchange // 4000 and resolution was good
-  analogWrite(A14, (int)3000);
+  analogWrite(A14, (int)3500);
 
     Serial.begin(9600);
 
@@ -78,7 +78,7 @@ void setup() {
     // If you enable interrupts, notice that the isr will read the result, so that isComplete() will return false (most of the time)
     //adc->enableInterrupts(ADC_0);
 
-  adc->enablePGA  (8, ADC_0) ; //can be 1, 2, 4, 8, 16, 32 or 64 //  will amplify signals of less that 1.2V only in differential mode (see examples). Only for Teensy 3.1/3.2.
+  adc->enablePGA  (2, ADC_0) ; //can be 1, 2, 4, 8, 16, 32 or 64 //  will amplify signals of less that 1.2V only in differential mode (see examples). Only for Teensy 3.1/3.2.
 
 
     Serial.println("End setup");
@@ -139,12 +139,12 @@ prevDeriv1=deriv1;
 
 //DISPLAY INFO
    // Serial.println(value, DEC);
-              Serial.print(thresholdA);
+             Serial.print(thresholdA);
               Serial.print(" ");
+              Serial.println(abs(derivIIR));
 
     // Serial.println(average);
        //Serial.println(deriv1);
-              Serial.println(derivIIR);
 
      //Serial.println(deriv2);
 
@@ -158,7 +158,7 @@ prevDeriv1=deriv1;
   }
 
 
-    delay(7); //scrolling speed of information
+    delay(5); //scrolling speed of information
 }
 
 // If you enable interrupts make sure to call readSingle() to clear the interrupt.
